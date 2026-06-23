@@ -147,7 +147,7 @@ public sealed partial class MainWindow : Window
         left.Children.Add(logo);
 
         var brand = new StackPanel { VerticalAlignment = VerticalAlignment.Center };
-        brand.Children.Add(Text("NexX Sensi", 24, WHITE, FontWeights.Bold));
+        brand.Children.Add(Text("NexX Sensi", 24, WHITE, "Bold"));
         brand.Children.Add(Text("System Tuner · Windows 10/11", 13, TEXT_MUT));
         left.Children.Add(brand);
 
@@ -167,7 +167,7 @@ public sealed partial class MainWindow : Window
 
         var stack = new StackPanel { Spacing = 6 };
         border.Child = stack;
-        stack.Children.Add(Text("CATEGORIAS", 12, TEXT_DIM, FontWeights.Bold, margin: new Thickness(8, 0, 0, 5)));
+        stack.Children.Add(Text("CATEGORIAS", 12, TEXT_DIM, "Bold", margin: new Thickness(8, 0, 0, 5)));
 
         AddNav(stack, "windows", "Windows", "windows");
         AddNav(stack, "servicos", "Serviços", "servicos");
@@ -192,7 +192,7 @@ public sealed partial class MainWindow : Window
         grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
         border.Child = grid;
 
-        _statusText = Text("● Scripts carregados.", 15, GREEN, FontWeights.Bold);
+        _statusText = Text("● Scripts carregados.", 15, GREEN, "Bold");
         _statusText.VerticalAlignment = VerticalAlignment.Center;
         Grid.SetColumn(_statusText, 0);
         grid.Children.Add(_statusText);
@@ -218,7 +218,7 @@ public sealed partial class MainWindow : Window
         row.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
         row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
         row.Children.Add(Icon(iconKey, 24, TEXT_MUT));
-        var label = Text(title, 15, TEXT_MUT, FontWeights.SemiBold);
+        var label = Text(title, 15, TEXT_MUT, "SemiBold");
         label.VerticalAlignment = VerticalAlignment.Center;
         Grid.SetColumn(label, 1);
         row.Children.Add(label);
@@ -374,7 +374,7 @@ public sealed partial class MainWindow : Window
         row.Children.Add(ic);
 
         var text = new StackPanel { VerticalAlignment = VerticalAlignment.Center };
-        text.Children.Add(Text(title, 22, TEXT_PRI, FontWeights.Bold));
+        text.Children.Add(Text(title, 22, TEXT_PRI, "Bold"));
         text.Children.Add(Text(desc, 15, TEXT_MUT));
         Grid.SetColumn(text, 1);
         row.Children.Add(text);
@@ -383,7 +383,7 @@ public sealed partial class MainWindow : Window
 
     private void Section(StackPanel parent, string title)
     {
-        parent.Children.Add(Text(title.ToUpperInvariant(), 13, CYAN, FontWeights.Bold, new Thickness(2, 8, 0, 10)));
+        parent.Children.Add(Text(title.ToUpperInvariant(), 13, CYAN, "Bold", new Thickness(2, 8, 0, 10)));
     }
 
     private Grid CardGrid(int columns)
@@ -399,7 +399,7 @@ public sealed partial class MainWindow : Window
         card.Padding = new Thickness(16, 14, 16, 14);
         var stack = new StackPanel { Spacing = 8 };
         stack.Children.Add(Icon(action.Icon, 44, action.Accent));
-        stack.Children.Add(Text(action.Title, 16, TEXT_PRI, FontWeights.Bold));
+        stack.Children.Add(Text(action.Title, 16, TEXT_PRI, "Bold"));
         stack.Children.Add(Text(action.Description, 14, TEXT_MUT));
         stack.Children.Add(RiskBadge(action.Risk));
         stack.Children.Add(ActionButton(action, true));
@@ -427,7 +427,7 @@ public sealed partial class MainWindow : Window
         grid.Children.Add(icon);
 
         var text = new StackPanel { VerticalAlignment = VerticalAlignment.Center };
-        text.Children.Add(Text(action.Title, 16, TEXT_PRI, FontWeights.Bold));
+        text.Children.Add(Text(action.Title, 16, TEXT_PRI, "Bold"));
         text.Children.Add(Text(action.Description, 14, TEXT_MUT));
         Grid.SetColumn(text, 1);
         grid.Children.Add(text);
@@ -523,7 +523,7 @@ public sealed partial class MainWindow : Window
             Background = Brush(bg),
             CornerRadius = new CornerRadius(11),
             Padding = new Thickness(9, 4, 9, 4),
-            Child = Text(label, 12, fg, FontWeights.Bold)
+            Child = Text(label, 12, fg, "Bold")
         };
     }
 
@@ -532,7 +532,7 @@ public sealed partial class MainWindow : Window
         Background = Brush(bg),
         CornerRadius = new CornerRadius(18),
         Padding = new Thickness(12, 5, 12, 5),
-        Child = Text(text, 13, fg, FontWeights.Bold)
+        Child = Text(text, 13, fg, "Bold")
     };
 
     private Border PanelBorder(string bg, string border, double radius, double thickness) => new()
@@ -543,12 +543,12 @@ public sealed partial class MainWindow : Window
         CornerRadius = new CornerRadius(radius)
     };
 
-    private TextBlock Text(string text, double size, string color, Windows.UI.Text.FontWeight? weight = null, Thickness? margin = null)
+    private TextBlock Text(string text, double size, string color, string weight = "Normal", Thickness? margin = null) => new()
     {
         Text = text,
         Foreground = Brush(color),
         FontSize = size,
-        FontWeight = weight ?? FontWeights.Normal,
+        FontWeight = weight == "Bold" ? FontWeights.Bold : weight == "SemiBold" ? FontWeights.SemiBold : FontWeights.Normal,
         FontFamily = new FontFamily("Segoe UI Variable"),
         Margin = margin ?? new Thickness(0),
         TextWrapping = TextWrapping.Wrap
