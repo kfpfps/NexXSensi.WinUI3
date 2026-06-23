@@ -1,0 +1,44 @@
+name: Build NexX Sensi WinUI 3
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Clear NuGet cache
+        run: dotnet nuget locals all --clear
+
+      - name: Restore
+        run: dotnet restore NexXSensi.WinUI3.csproj --source https://api.nuget.org/v3/index.json
+
+      - name: Publish x64
+        run: >
+          dotnet publish NexXSensi.WinUI3.csproj
+          -c Release
+          -r win-x64
+          --self-contained true
+          -p:WindowsPackageType=None
+          -p:WindowsAppSDKSelfContained=true
+          -p:CETCompat=false
+          -p:UseSharedCompilation=false
+          -o publish
+
+      - name: Upload build
+        uses: actions/upload-artifact@v4
+        with:
+          name: NexX-Sensi-win-x64
+          path: publish
