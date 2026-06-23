@@ -1,0 +1,4 @@
+-p:CETCompat=false
+-p:UseSharedCompilation=false
+-p:RuntimeIdentifier=win-x64
+-p:PlatformTarget=x64
