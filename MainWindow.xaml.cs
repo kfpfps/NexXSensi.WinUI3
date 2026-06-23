@@ -67,7 +67,11 @@ public sealed partial class MainWindow : Window
             var id = Microsoft.UI.Win32Interop.GetWindowIdFromWindow(hwnd);
             var appWindow = AppWindow.GetFromWindowId(id);
             appWindow.Resize(new SizeInt32(1220, 780));
-            appWindow.SetIcon(Path.Combine(AppContext.BaseDirectory, "Assets", "logo.ico"));
+            var iconPath = Path.Combine(AppContext.BaseDirectory, "Assets", "logo.ico");
+            if (File.Exists(iconPath))
+            {
+                appWindow.SetIcon(iconPath);
+            }
         }
         catch
         {
@@ -137,14 +141,7 @@ public sealed partial class MainWindow : Window
         Grid.SetColumn(left, 0);
         grid.Children.Add(left);
 
-        var logo = new Image
-        {
-            Width = 88,
-            Height = 88,
-            Stretch = Stretch.Uniform,
-            Source = new BitmapImage(new Uri("ms-appx:///Assets/logo.png"))
-        };
-        left.Children.Add(logo);
+        left.Children.Add(BuildEmbeddedLogo());
 
         var brand = new StackPanel { VerticalAlignment = VerticalAlignment.Center };
         brand.Children.Add(Text("NexX Sensi", 24, WHITE, "Bold"));
@@ -158,6 +155,40 @@ public sealed partial class MainWindow : Window
         grid.Children.Add(pills);
 
         return border;
+    }
+
+    private Border BuildEmbeddedLogo()
+    {
+        var shell = new Border
+        {
+            Width = 88,
+            Height = 88,
+            CornerRadius = new CornerRadius(44),
+            Background = new LinearGradientBrush
+            {
+                StartPoint = new Windows.Foundation.Point(0, 0),
+                EndPoint = new Windows.Foundation.Point(1, 1),
+                GradientStops =
+                {
+                    new GradientStop { Color = Hex("#102E5E"), Offset = 0.0 },
+                    new GradientStop { Color = Hex("#039BE5"), Offset = 0.52 },
+                    new GradientStop { Color = Hex("#06101D"), Offset = 1.0 }
+                }
+            },
+            BorderBrush = Brush(CYAN),
+            BorderThickness = new Thickness(2),
+            Child = new TextBlock
+            {
+                Text = "NX",
+                Foreground = Brush(WHITE),
+                FontSize = 28,
+                FontWeight = FontWeights.Bold,
+                FontFamily = new FontFamily("Segoe UI Variable"),
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center
+            }
+        };
+        return shell;
     }
 
     private Border BuildSidebar()
