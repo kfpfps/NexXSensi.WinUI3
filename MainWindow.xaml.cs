@@ -11,7 +11,7 @@ using NexXSensi.Models;
 using NexXSensi.Services;
 using Windows.Graphics;
 using Windows.UI;
-using Windows.UI.Text;
+using Microsoft.UI.Text;
 using WinRT.Interop;
 
 namespace NexXSensi;
