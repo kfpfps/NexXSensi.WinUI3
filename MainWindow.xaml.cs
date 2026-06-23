@@ -543,7 +543,7 @@ public sealed partial class MainWindow : Window
         CornerRadius = new CornerRadius(radius)
     };
 
-    private TextBlock Text(string text, double size, string color, FontWeight? weight = null, Thickness? margin = null) => new()
+    private TextBlock Text(string text, double size, string color, Windows.UI.Text.FontWeight? weight = null, Thickness? margin = null)
     {
         Text = text,
         Foreground = Brush(color),
